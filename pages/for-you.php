@@ -82,12 +82,14 @@ $isTVShow = $selectedMovie && isset($selectedMovie['has_sub_series']) && $select
   display: flex;
   height: 87vh;
   width: 100%;
+  user-select: none;
   margin-top: 5.1rem;
 }
 
 .foryou-video-panel {
   flex: 2;
   display: flex;
+  user-select: none;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
@@ -97,6 +99,7 @@ $isTVShow = $selectedMovie && isset($selectedMovie['has_sub_series']) && $select
   width: 100%;
   max-width: 600px;
   height: 100%;
+  user-select: none;
   max-height: 80vh;
   background: #000;
   display: block; /* Ensure iframe doesn't interfere with layout */
@@ -224,12 +227,16 @@ $isTVShow = $selectedMovie && isset($selectedMovie['has_sub_series']) && $select
     top: 8rem;
     left: 3rem;
     text-align: center;
+    margin: 0 auto;
     width: 3.125rem;
     height: 3.125rem;
     padding: 0.35rem;
     border-radius: 50%;
     background-color: rgba(252, 125, 135, 0.20);
     cursor: pointer;
+}
+.back-arrow svg{
+  margin-top: 0.5rem;
 }
 .div1{
   display: flex;

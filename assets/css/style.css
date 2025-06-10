@@ -275,6 +275,7 @@ NAVBAR STYLING
 
 .hero-section{
   position: relative;
+  user-select: none;
   width: 100%;
   height: 87vh; /* Like your reference */
   background-color: #101010;
@@ -490,8 +491,9 @@ NAVBAR STYLING
   }
 .newandHot-title{
   margin: 0 auto;
+  user-select: none;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   width: 100%;
   display: flex;
   color: aliceblue;
@@ -621,6 +623,7 @@ NAVBAR STYLING
 .watch-button {
   padding: 8px 16px;
   background-color: #ff4081;
+  user-select: none;
   border: none;
   border-radius: 20px;
   color: white;
@@ -1579,6 +1582,7 @@ Rewards CSS Styling
 
 .card img {
   width: 100%;
+  user-select: none;
   height: auto;
   object-fit: cover; /* Ensure images fit nicely */
 }

@@ -81,11 +81,13 @@ if (isset($response['data']) && is_array($response['data'])) {
     .video-container {
       position: relative;
       height: 97.5%;
+      user-select: none;
       width: 85%;
     }
     
     .video-player {
       width: 100%;
+      user-select: none;
       height: 100%;
       object-fit: cover;
     }
