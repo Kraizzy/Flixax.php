@@ -1,0 +1,1570 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Sen:wght@400..800&display=swap');
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+/* ===============
+NAVBAR STYLING
+=============== */
+.nav-div{
+  display: flex;
+  position: fixed;
+  padding-bottom: 10px;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.40);
+  justify-content: space-between;
+  padding-top: 2rem;
+  z-index: 5;
+  width: 100%;
+
+}
+.nav-bar a, li{
+    text-decoration: none;
+    list-style: none;
+}
+.nav-bar{
+  display: flex;
+  align-items: center;
+  /* background-color: #F4854A; */
+  height: 50px;
+  width: 90%;
+  padding: 2px 0px;
+  margin: 0 auto;
+}
+.navbar-content{
+  display: flex;
+  justify-content: space-evenly;
+  gap: 9.625rem;
+  width: 100%;
+  margin: 0 auto;
+}
+.nav-logo{
+  display: inline-flex;
+  user-select: none;
+  margin-right: 0;
+}
+.logo-linkitem{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 3rem;
+  /* background-color: #5CA8FF; */
+}
+.nav-ulink{
+  display: flex;
+  justify-content: space-around;
+  gap: 4rem;
+  padding: 0;
+}
+.nav-link{
+  display: inline-flex;
+  color: #fff;
+  padding: 0 0.625rem;
+  user-select: none;
+  font-size: 1.5rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+}
+.nav-link:hover,
+.nav-link.active {
+  cursor: pointer;
+  background: var(--Flixax-gradient, linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Right-list-item styling */
+.right-part{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.2rem;
+  gap: 3rem;
+  /* background-color: #5CA8FF; */
+}
+.gift-filter-user{
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+}
+/* Search-box */
+.search-div{
+  position: relative;
+  align-items: center;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding-left: 38px;
+  width: 26rem;
+  gap: 1.5rem;
+}
+.search{
+  display: flex;
+  align-items: center;
+}
+
+.search-icon{
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 20px;
+  height:20px;
+  transform: translateY(-50%);
+  pointer-events:none;
+}
+.search-box{
+  display: inline;
+  background-color: transparent;
+  font-weight: 500;
+  line-height: normal;
+  font-size: 14px;
+  font-family: "DM San", sans-serif;
+  height: 2.2rem;
+  color: white;
+  outline: none;
+  width: 21.5rem;
+  border-style: none;
+  
+}
+.search-box::placeholder{
+  color: rgba(255, 255, 255, 0.60);
+  opacity: 0.6;
+  font-size: 12px;
+  font-family: "DM San", sans-serif;
+  font-weight: 500;
+  line-height: normal;
+}
+/* filter */
+.filter-div{
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  gap: 4px;
+}
+.filter-icon{
+  padding:0;
+  margin:0;
+  height: 24px;
+  width: 24px;
+}
+.filter-link{
+  display: inline-flex;
+  color: #fff;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  line-height: 24px;
+}
+.filter-link:hover{
+  cursor: pointer;
+  background: var(--Flixax-gradient, linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.filter-ul{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0;
+}
+.dropdownarrow{
+  padding: 0;
+  margin: 0;
+  height: 14px;
+  width: 14px;
+}
+/* dropdown-menu */
+.dropdown-menu {
+  position: absolute; 
+  top: 100%;             
+  left: 0;  
+  right: 12px;             
+  margin-top: 15px; 
+  width: 216px;          
+  border-radius: 8px;  
+  text-align: left; 
+  background-color: #222;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  list-style: none;      
+  padding: 8px 0;       
+  display: none;   
+  overflow: hidden;     
+  z-index: 100; 
+}
+.filter-div.hover .dropdown-menu {
+  display: block;
+}
+.filter-div.open .dropdown-menu {
+  display: block;
+}
+.dropdown-menu li {
+  padding: 0;
+
+}
+.dropdown-links{
+  display: block;
+  width: 216px;
+  color: #fff;
+  font-family: "DM San", sans-serif;
+  padding: 10px 16px;
+  font-weight: 500;
+  line-height: normal;
+}
+.dropdown-menu li a.dropdown-links:hover {
+  background: rgba(252, 125, 135, 0.20);
+  color: #FA528C;
+
+}
+/* User div */
+.user-div{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  gap: 4px;
+}
+.user-ul{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0;
+}
+.user-link{
+  display: inline-block;
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+}
+.nav-link:hover,
+.nav-ulink .nav-link.active {
+  cursor: pointer;
+  background: var(--Flixax-gradient, linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* User div */
+.user-div{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  vertical-align: center;
+  height: 24px;
+  gap: 4px;
+}
+.user-ul{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0;
+}
+
+/* Hero Section Styling */
+
+.hero-section{
+  position: relative;
+  width: 100%;
+  height: 87vh; /* Like your reference */
+  background-color: #101010;
+  overflow: hidden;
+}
+.hero-content{
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  text-align: left;
+  gap: 2rem;
+  bottom: 6.813rem;
+  left: 13.575rem;
+  color: aliceblue;
+  z-index: 3;
+}
+.hero-content h1{
+  color: #FFF;
+  font-family: Nunito;
+  font-size: 32px;
+  width: 20.125rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 130%; /* 41.6px */
+}
+.hero-content button{
+  border-radius: 4px;
+  gap: 0.625rem;
+  border: none;
+  width: 12.8125rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  color: #FFF;
+  font-family: "Nunito", sans-serif;
+  font-size: 1.5rem;
+  display: flex;
+  background: #FA528C;
+  transition: transform 0.3s ease-in-out;
+}
+.hero-content button:hover{
+  transform: scale(1.1);
+}
+.hero-content span{
+  display: flex;
+  width: 1.149rem;
+  height: 1.243rem;
+}
+.slides{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.shadow-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: linear-gradient(to right, rgba(0, 0, 0, 0.95), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.95)); */
+  box-shadow: 0px 1000px 4px 0px rgba(16, 16, 16, 0.05) inset, 32px 4px 20px 0px #101010 inset, -32px 0px 20px 0px #101010 inset, 0px -100px 40px 0px #101010 inset, 0px 100px 20px 0px #101010 inset;
+  z-index: 3;
+  pointer-events: none;
+}
+.dots {
+  position: absolute;
+  bottom: 5rem;
+  right: 25.0625rem;
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: all 0.3s ;
+}
+
+.dot.active {
+  width: 24px;
+  border-radius: 20px;
+  opacity: 1;
+}
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  padding: 0.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+  transition: background 0.3s ease;
+}
+.slider-arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.slider-prev {
+  left: 7.75rem;
+}
+
+.slider-next {
+  right: 7.75rem;
+}
+
+.slider-arrow svg {
+  width: 30px;
+  height: 30px;
+  fill: white;
+  pointer-events: none;
+}
+
+.slide {
+  display: none;
+  /* your styles for slide content */
+}
+
+.slide.active {
+  display: block;
+}
+
+/*New and Hot section styling*/
+
+.fore-div {
+    width: 90%;
+    margin: 0 auto;
+    height: auto; /* changed from fixed height */
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.card-grid {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    height: 32rem;
+    gap: 1.0015rem;
+    padding: 2rem 1rem;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory; /* snap scrolling */
+}
+
+.card-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+.card {
+    flex: 0 0 295px; /* fixed width but adaptable */
+    scroll-snap-align: start; /* snap start for each card */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    will-change: transform;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Adjust card image height to be relative */
+.card-image {
+    width: 100%;
+       height: 24rem;
+    object-fit: cover;
+    border-radius: 5.6px;
+}
+.new-ribbon {
+    position: absolute;
+    left: -18.189px;
+    top: 7px;
+    width: 77.718px;
+    height: 15.644px;
+    background-color: #FF0000;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 1.2;
+    font-size: 14.22px;
+    font-style: normal;
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
+    transform: rotate(-45deg);
+  }
+.newandHot-title{
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 24px;
+  display: flex;
+  color: aliceblue;
+}
+.arrow-div{
+    display: flex;
+    gap: 1.5rem;
+    width: 5.94rem;
+    align-items: center;
+}
+.arrow-icon{
+    height: 100%;
+    width: 25%;
+    margin: 0 auto;
+}
+.arrow-icon:hover{
+    background-color: rgba(250, 82, 140, 0.50);
+    border-radius: 0.625rem;
+    color: #FFF;
+    cursor: pointer;
+}
+/* Responsive typography */
+.newandHot-title h2 {
+    font-size: 2rem;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+  /* Card content */
+.card-content {
+    padding-top: 5px;
+    margin-top: 1rem;
+    transition: opacity 0.3s ease-in-out;
+    }
+.movieTitle{
+    font-size: 1rem;
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2rem;
+}
+.card-content p {
+    font-size: 1rem;
+    color: #FFF;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+.card:hover .card-content{
+  opacity: 0;
+  pointer-events: none;
+}
+.card h3{
+    font-size: 1rem;
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2rem;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 8.3rem;
+  left: 0;
+  width: 94.4%;
+  height: 65.12%;
+  background: #222;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding:  0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  text-align: left;
+  justify-content: center;
+  border-radius: 0px 0px 9px 9px;
+  z-index: 1;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+}
+.card-overlay h3 {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
+}
+
+.card-overlay .genre {
+  color: #8A8A8A;;
+  font-size: 0.8rem;
+  margin: 0.5rem;
+  width: 100%;
+  font-family: "Nunito", sans-serif;
+}
+.overlayTypo{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    width: 100%;
+}
+.card-overlay .description {
+  font-size: 0.9rem;
+  width: 16.88rem;
+  margin: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-weight: 300;
+  font-style: normal;
+  font-family: "Nunito", sans-serif;
+}
+.watch-button {
+  padding: 8px 16px;
+  background-color: #ff4081;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Media queries for smaller devices */
+
+@media (max-width: 1024px) {
+    .card-grid {
+        padding: 1rem 0.5rem;
+    }
+    .card {
+        flex: 0 0 220px;
+    }
+    .card-image {
+        height: 14rem;
+    }
+    .newandHot-title h2 {
+        font-size: 1.7rem;
+    }
+    .card-content p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .newandHot-title {
+        flex-direction: column;
+        height: auto;
+        margin-bottom: 16px;
+    }
+    .newandHot-title h2 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    .arrow-div {
+        justify-content: center;
+    }
+    .card-grid {
+        gap: 12px;
+        padding: 1rem 0.5rem;
+    }
+    .card {
+        flex: 0 0 180px;
+    }
+    .card-image {
+        height: 12rem;
+    }
+    .card-content p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Most trending */
+.card-overlay-most-trend{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 95%;
+  height: 18%;
+  background: #313131;
+  color: white;
+  transition: opacity 0.3s ease;
+  padding:  0.7rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.475rem;
+  text-align: left;
+  border-radius: 0px 0px 4.399px 4.399px;
+  justify-content: center;
+  z-index: 1;
+}
+.card-overlay-most-trend h3{
+  margin: 0;
+  color: #FFF;
+  font-family: Nunito;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2rem;
+}
+.trend-rank{
+  color: #EDBE00;
+  border-radius: 4.399px;
+  background: rgba(237, 190, 0, 0.20);
+  align-items: center;
+  text-align: left;
+  margin-left: 0;
+  font-size: 0.875rem;
+  font-family: "Nunito", sans-serif;
+  justify-content: flex-start;
+  padding: 0.275rem 0.412rem;
+}
+.trend-rank p{
+  margin: 0;
+}
+/* You might also Like  */
+.section5-div{
+  width: 90%;
+  margin: 0 auto;
+}
+.section-title{
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 29px;
+  display: flex;
+  color: aliceblue;
+}
+.section-title p{
+  font-size: 32px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  margin: 0;
+  font-style: normal;
+  line-height: 32.893px;
+}
+.arrow-div{
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+.arrow-icon{
+  height: 100%;
+  width: 100%;
+}
+.row-grid {
+  width: 100%;
+  gap: 5rem;
+  padding: 10px 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  display: flex;
+}
+
+.column-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.column-wrap {
+  display: flex;
+  background-color: #EDBE00;
+  gap: 20px;
+}
+.img-div img {
+  object-fit: cover;
+}
+
+
+.rows {
+  display: flex;
+  width: 25rem; /* Fixed width for uniformity */
+  gap: 5rem;
+  flex-shrink: 0;
+}
+.row-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.row-grid {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.content-container {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  width: 100%;
+}
+.content-container a{
+  display: flex;
+}
+
+.typography {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.typography h4,
+.typography p {
+  font-family: "Nunito", sans-serif;
+  color: white;
+  margin: 0;
+}
+
+.typography h4 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.typography p {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.5;
+}
+
+/* ====================================
+User CSS Styling
+==================================== */
+
+
+/* User div */
+.user-div{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  vertical-align: center;
+  height: 24px;
+  gap: 4px;
+}
+.user-ul{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0;
+}
+.user-link{
+  display: inline-block;
+  color: #fff;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+}
+.user-link:hover{
+  cursor: pointer;
+  background: var(--Flixax-gradient, linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* User Contents Styling  */
+.user-container{
+    background-color: #222222;
+    color: #FFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1224px;
+    margin: 52px auto;
+    display: flex;
+    gap: 60px;
+    padding: 60px;
+}
+.login-div{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 32.625rem;
+    gap: 40px;
+}
+.mywallet-div{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    flex: 1;
+}
+.user-info{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.user-id{
+    margin-bottom: 0px;
+    flex-direction: column;
+    gap: 8.8px;
+    padding: 5px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+.head-info{
+    display: flex;
+    gap: 22.4px;
+}
+.user-id h4{
+    margin: 0;
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+.ID {
+    display: flex;
+    gap: 8.4px;
+    align-items: center;
+}
+.user-id span{
+    margin-top: 5px;
+}
+.user-id p{
+    margin: 0;
+    color: rgba(255, 255, 255, 0.50);
+    font-family: Nunito;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.user-info button{
+    display: flex;
+    width: 522px;
+    cursor: pointer;
+    padding: 16px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 5.6px;
+    border: none;
+    background: #FA528C;
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22.4px;
+}
+.subscribe{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    height: 125px;
+    gap: 95.9px;
+    padding: 0 23.1px;
+    border-radius: 5.6px;
+    background: linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%);
+}
+.sub-descr{
+    display: inline-flex;
+    /* height: 61.8px; */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10.8px;
+}
+.sub-descr h4{
+    color: #FFF;
+    width: 211.4px;
+    margin: 0;
+    font-family: Nunito;
+    font-size: 25.2px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+.sub-descr p{
+    color: rgba(255, 255, 255, 0.89);
+    font-family: Nunito;
+    margin: 0;
+    font-size: 19.6px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.subscribe button{
+    border-radius: 22.4px;
+    border: 0.7px solid #FFF;
+    background: #5CA8FF;
+    cursor: pointer;
+    display: inline-flex;
+    padding: 15.4px 22.4px;
+    justify-content: center;
+    align-items: center;
+    height: 44.8px;
+    width: 179.8px;
+    gap: 5.6px;
+    color: #FFF;
+    font-family: Nunito;
+    font-size: 18.2px;
+    font-style: normal;
+    font-weight: 500;
+}
+.head-div{
+    display: flex;
+    flex-direction: column;
+    width: 484.4px;
+    gap: 25.2px;
+    padding: 22.4px 10px;
+}
+.head-title{
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 484.4px;
+    align-items: center;
+    border-bottom: 0.7px solid rgba(255, 255, 255, 0.10);
+}
+.ht{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 484.4px;
+}
+.head-title h4{
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 25.2px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 25.2px; /* 100% */
+}
+.coins-count{
+    display: flex;
+    width: 484.4px;
+    align-items: center;
+    height: 44.8px;
+    justify-content: space-between;
+    /* padding: 22.4px 10px;
+    border-bottom: 0.7px solid rgba(255, 255, 255, 0.10); */
+}
+.coin{
+    display: flex;
+    align-items: center;
+    height: 44.8px;
+    gap: 37.8px;
+    
+}
+.coin h3{
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 19.6px;
+    height: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25.2px; /* 90% */
+}
+.coin span{
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 28px;
+    height: 20px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 25.2px; /* 90% */
+}
+.coins-count button{
+    display: flex;
+    padding: 15.4px 22.4px;
+    justify-content: center;
+    align-items: center;
+    color: #FF2E76;
+    font-family: "Nunito", sans-serif;
+    font-size: 1.225rem;
+    font-style: normal;
+    font-weight: 500;
+    gap: 5.6px;
+    cursor: pointer;
+    height: 45.8px;
+    width: 7rem;
+    border-radius: 5.6px;
+    border: 1px solid #FF2E76;
+    background: rgba(252, 125, 135, 0.20);
+}
+.wallet-body{
+    display: flex;
+    flex-direction: column;
+    width: 484.4px;
+    gap: 25.2px;
+    padding: 22.4px 10px;
+}
+.wallet-items{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 16.8px 0px;
+    border-bottom: 0.7px solid rgba(255, 255, 255, 0.10);
+    width: 100%;
+}
+.reward_daily{
+  background: rgba(237, 190, 0, 0.10);
+  position: absolute;
+  top: 21rem;
+  right: 20rem;
+  border-radius: 0.35rem;
+  padding: 0.2rem 1.4rem;
+  font-size: 1rem;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+  color: #EDBE00;
+  align-items: center;
+}
+.wallet-items p{
+    margin: 0;
+    color: #FFF;
+    font-family: "Nunito", sans-serif;
+    font-size: 22.4px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 25.2px; /* 112.5% */
+}
+
+/* =====================================
+Rewards CSS Styling
+==================================== */
+
+.wrap-div{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  /* background-color: blueviolet; */
+}
+.element {
+  padding: 0;
+}
+.section{
+  background-color: #101010;
+  overflow: hidden;
+  color: #fff;
+  width: 100%;
+  margin: 0 auto;
+  height: 124.65vh;
+}
+.bg{
+  height: 70vh;
+  width: 100%;
+  padding: 0;
+  position: relative;
+  background: linear-gradient(180deg, #fbba2d, #F4854A 30%, #F67361 50%, #000000 100%);
+  display: flex;
+}
+.bonus-count{
+  display: flex;
+  position: absolute;
+  top: 12.4375rem;
+  left: 8rem;
+  gap: 1.375rem;
+  flex-direction: column;
+}
+.bonus-count p{
+ margin: 0;
+ color: #FFF;
+ text-shadow: 0 0.1963rem 0.3924rem rgba(0, 0, 0, 0.25);
+ font-family: Nunito;
+ font-size: 2.25rem;
+ font-style: normal;
+ font-weight: 700;
+ line-height: normal;
+}
+.bonus-count h3{
+ margin: 0;
+ color: #FFF;
+ font-family: "Nunito", sans-serif;
+ font-size: 1.5rem;
+ font-style: normal;
+ font-weight: 400;
+ line-height: normal;
+}
+.svgs{
+  display: flex;
+}
+.coin-background{
+  position: absolute;
+  top: 6.25rem;
+  right: 20.8rem;
+}
+.coin-background2{
+  position: absolute;
+  top: 3.87rem;
+  right: 0rem;
+}
+.rewardStars1{
+  position: absolute;
+  top: 18.24rem;
+  right: 38.554rem;
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.rewardStars2{
+  position: absolute;
+  width: 2.125rem;
+  height: 2.125rem;
+  top: 14.43rem;
+  right: 40.125rem;
+}
+.rewardStars3{
+  position: absolute;
+  top: 4.6875rem;
+  right: 6.25rem;
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.rewardStars4{
+  position: absolute;
+  top: 6.25rem;
+  right: 9.375rem;
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.rewardStars5{
+  position: absolute;
+  top: 7.8125rem;
+  right: 12.5rem;
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.rewardStars6{
+  position: absolute;
+  top: 9.375rem;
+  right: 15.625rem;
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.rewardStars7{
+  position: absolute;
+  top: 10.9375rem;
+  right: 18.75rem;
+  width: 3.125rem;
+  height: 3.125rem;
+}
+.coin1{
+  position: absolute;
+  top: 10.55rem;
+  user-select: none;
+  right: 24.125rem;
+  width: 29.713rem;
+  height: 27.711rem;
+
+}
+.coin2 {
+  position: absolute;
+  user-select: none;
+  top: 5.61rem;
+  right: 3.69rem;
+  width: 29.713rem;
+  height: 27.711rem;
+}
+/* Define the rotation animation */
+.rotate {
+    animation: spin 40s linear infinite; /* 4s duration, linear timing, infinite loop */
+}
+
+/* Keyframes for 360-degree rotation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+ /* Define the blinking animation */
+  .blink {
+    animation: blinkEffect 0.7s linear infinite; /* 1s duration, linear timing, infinite loop */
+  }
+
+  /* Keyframes for blinking effect (opacity change) */
+  @keyframes blinkEffect {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+.content-div{
+  position: absolute;
+  top: 25rem;
+  margin: 0 auto;
+  margin-left: 1rem;
+  width: 94.5%;
+  display: flex;
+  padding: 2.2104rem;
+  justify-content: space-between;
+  gap: 0.973rem;
+  border-radius: 2.46rem;
+  background: #161616;
+}
+.div-title{
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  margin-bottom: 1.705rem;
+}
+.div-title h3{
+  margin: 0;
+  color: #FFF;
+  font-family: Nunito;
+  font-size: 1.279rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  
+}
+.div-title p{
+  margin: 0;
+  color: rgba(255, 255, 255, 0.50);
+  font-family: Nunito;
+  font-size: 15.915px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.point-container{
+  /* background-color: blue; */
+  width: 29.56rem;
+  display: flex;
+  gap: 12.82px;
+  
+}
+.point-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  justify-content: center;
+  gap: 9.09px;
+  width: 54.57px;
+  height: 120.22px;
+  /* background-color: aquamarine; */
+}
+.point-content p{
+  margin: 0;
+  color: rgba(255, 255, 255, 0.50);
+  text-align: center;
+  font-family: Nunito;
+  font-size: 13.641px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.point-content p:hover {
+  color: #FFF;
+}
+.points-div{
+  background-color: #222222;
+  user-select: none;
+  height: 92.57px;
+  width: 54.57px;
+  margin: 0 auto;
+  justify-content: center;
+  border-radius: 4.55px;
+  display: flex;
+  padding: 5.8px 2px;
+}
+.points-div:hover{
+  background: linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%);
+}
+.points{
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  margin: 0 auto;
+  align-items: center;
+}
+.points p{
+  color: rgba(255, 255, 255, 0.50);
+  text-align: center;
+  margin: 5px 0 0 0;
+  font-family: Nunito;
+  font-size: 15.91px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.points svg{
+  margin-top: 7px;
+  margin-bottom: 0px;
+}
+.dailycheckin-div{
+  padding: 1rem;
+}
+.move-coin {
+    top: -50px; /* Moves it upward towards the "Your Bonus" area */
+    opacity: 0;
+}
+.animated-coin {
+    position: absolute;
+    width: 30px; /* Adjust coin size */
+    height: 30px;
+    transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction */
+}
+.points img {
+  margin-top: 7px;
+  margin-bottom: 0px;
+  position: absolute;
+  top: 1.5rem;
+  transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+#coin {
+    opacity: 0; /* Initially hidden */
+    position: absolute;
+    top: 1.5rem;  
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(1080deg); /* 3 full spins */
+    }
+}
+#coin2 {
+    opacity: 0; /* Hidden until animation completes */
+}
+
+.hide {
+    display: none; /* Used to hide elements after animation */
+}
+
+.dailycheckin-div button{
+  display: flex;
+  height: 45.471px;
+  width: 30rem;
+  cursor: pointer;
+  padding: 12.505px 18.189px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 27.283px;
+  border: none;
+  margin-right: 32px;
+  margin-top: 45.47px ;
+  gap: 4.547px;
+  background:linear-gradient(130.77deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%);
+  color: #FFF;
+  font-family: Nunito;
+  font-size: 15.915px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18.189px; /* 114.286% */
+}
+/* .beginnertask-div{
+  flex: 1fr;
+} */
+.reward-container{
+  display: flex;
+  /* background-color: #5CA8FF; */
+  flex-direction: column;
+  gap: 12.5px;
+}
+.reward-content{
+  background-color: #1F212B;
+  border-radius: 4.55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.32rem 1.5rem;
+  width: 28rem;
+  height: 72.75px;
+}
+.typodiv{
+  display: flex;
+  width: 80%;
+  align-items: center;
+  margin: 0px;
+  justify-content: space-between;
+}
+.typodiv button{
+  display: flex;
+  /* width: 90.943px;
+  height: 31.83px; */
+  cursor: pointer;
+  padding: 0.6rem 2rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 27.283px;
+  border: none;
+  background: linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%);
+  color: #FFF;
+  font-family: Nunito;
+  font-size: 15.915px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18.189px; /* 114.286% */
+}
+.content-typo h3 {
+  margin: 0px;
+  color: #FFF;
+  font-family: "Nunito", sans-serif;
+  font-size: 15.915px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27.283px; /* 171.429% */
+}
+.content-typo p:hover{
+  color: #EDBE00;
+}
+.content-typo p {
+  margin: 0px;
+  color: rgba(255, 255, 255, 0.50);
+  font-family: Nunito;
+  font-size: 14.778px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.283px; /* 184.615% */
+}
+.watchads-container{
+  display: flex;
+  flex-direction: column;
+  gap: 12.5px;
+}
+/* We recommmend Section  */
+
+.grid-section {
+  width: 80%;
+  max-width: 1200px; /* Adjust based on design needs */
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.recommend-div {
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.rec-card-grid {
+  display: grid;
+  width: 100%;
+  margin: 1rem auto;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2.5rem 0.68rem;
+  justify-content: center;
+}
+
+.rec_card {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Ensure card takes full grid cell width */
+  box-sizing: border-box;
+  position: relative; /* For positioning the NEW ribbon */
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Ensure images fit nicely */
+}
+
+.rec-card-grid .card.hidden {
+  display: none;
+}
