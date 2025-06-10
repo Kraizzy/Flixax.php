@@ -438,7 +438,7 @@ NAVBAR STYLING
     scroll-behavior: smooth;
     height: 32rem;
     gap: 1.0015rem;
-    padding: 2rem 1rem;
+    padding: 1rem;
     scrollbar-width: none;
     scroll-snap-type: x mandatory; /* snap scrolling */
 }
@@ -493,7 +493,6 @@ NAVBAR STYLING
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 24px;
   display: flex;
   color: aliceblue;
 }
@@ -516,6 +515,8 @@ NAVBAR STYLING
 }
 /* Responsive typography */
 .newandHot-title h2 {
+    margin-top: 4rem;
+    margin-bottom: 0;
     font-size: 2rem;
     font-family: "Nunito", sans-serif;
     font-weight: 600;
@@ -601,6 +602,12 @@ NAVBAR STYLING
     flex-direction: column;
     gap: 0.2rem;
     width: 100%;
+}
+.overlayTypo p{
+  color: #8A8A8A;;
+  font-size: 0.8rem;
+  width: 100%;
+  font-family: "Nunito", sans-serif;
 }
 .card-overlay .description {
   font-size: 0.9rem;
@@ -748,11 +755,12 @@ NAVBAR STYLING
 }
 .row-grid {
   width: 100%;
-  gap: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   padding: 10px 0;
   overflow-x: auto;
   scroll-behavior: smooth;
-  display: flex;
 }
 
 .column-wrap::-webkit-scrollbar {
@@ -767,12 +775,16 @@ NAVBAR STYLING
 .img-div img {
   object-fit: cover;
 }
-
-
-.rows {
+.row1 {
   display: flex;
-  width: 25rem; /* Fixed width for uniformity */
-  gap: 5rem;
+  width: 23.5rem; /* Fixed width for uniformity */
+  gap: 1.25rem;
+  flex-shrink: 0;
+}
+.row2 {
+  display: flex;
+  width: 23.5rem; /* Fixed width for uniformity */
+  gap: 1.25rem;
   flex-shrink: 0;
 }
 .row-grid::-webkit-scrollbar {
@@ -783,17 +795,16 @@ NAVBAR STYLING
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
-
 .content-container {
   display: flex;
-  gap: 10px;
+  gap: 2rem;
   padding: 0;
-  width: 100%;
+  width: 30rem;
 }
 .content-container a{
   display: flex;
+  gap: 1rem;
 }
-
 .typography {
   display: flex;
   flex-direction: column;
@@ -1205,38 +1216,45 @@ Rewards CSS Styling
 }
 .rewardStars3{
   position: absolute;
-  top: 4.6875rem;
-  right: 6.25rem;
-  width: 3.125rem;
-  height: 3.125rem;
+  top: 20.6875rem;
+  right: 25.25rem;
+  width: 1.825rem;
+  height: 1.825rem;
 }
 .rewardStars4{
   position: absolute;
-  top: 6.25rem;
-  right: 9.375rem;
-  width: 3.125rem;
-  height: 3.125rem;
+  top: 21.25rem;
+  right: 24.975rem;
+  width: 1.825rem;
+  height: 1.825rem;
 }
 .rewardStars5{
   position: absolute;
-  top: 7.8125rem;
-  right: 12.5rem;
-  width: 3.125rem;
-  height: 3.125rem;
+  top: 20.8125rem;
+  right: 11.45rem;
+  width: 2.325rem;
+  height: 2.325rem;
 }
 .rewardStars6{
   position: absolute;
-  top: 9.375rem;
-  right: 15.625rem;
-  width: 3.125rem;
-  height: 3.125rem;
+  top: 9.2rem;
+  right: 19.725rem;
+  width: 2.825rem;
+  height: 2.825rem;
 }
 .rewardStars7{
   position: absolute;
-  top: 10.9375rem;
-  right: 18.75rem;
+  top: 12.9375rem;
+  right: 17.75rem;
   width: 3.125rem;
   height: 3.125rem;
+}
+.rewardStars8{
+  position: absolute;
+  top: 14.8125rem;
+  right: 8.45rem;
+  width: 2.325rem;
+  height: 2.325rem;
 }
 .coin1{
   position: absolute;
@@ -1271,7 +1289,7 @@ Rewards CSS Styling
 }
  /* Define the blinking animation */
   .blink {
-    animation: blinkEffect 0.7s linear infinite; /* 1s duration, linear timing, infinite loop */
+    animation: blinkEffect 1s linear infinite; /* 1s duration, linear timing, infinite loop */
   }
 
   /* Keyframes for blinking effect (opacity change) */

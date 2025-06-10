@@ -299,23 +299,43 @@
         </div>
       </div>
      <div class="row-grid">
-      <?php foreach ($new_and_hot_item as $item): ?>
-        <div class="rows">
-          <div class="content-container">
-            <a style="text-decoration: none; color: white;" href="<?= $baseUrl ?>/for-you?id=<?= htmlspecialchars($item['id']) ?>">
-              <div class="img-div">
-                <img src="<?= htmlspecialchars($item['poster_portrait']) ?>" alt="img" width="200" height="200"/>
-              </div>
-       
-              <div class="typography">
-                <h4><?= htmlspecialchars($item['title']) ?></h4>
-                <p class="genre"><?= htmlspecialchars(implode(", ", $item['genres'])) ?></p>
-              </div>
-            </a>
+      <div class="row1">
+        <?php foreach ($new_and_hot_item as $item): ?>
+          <div class="rows">
+            <div class="content-container">
+              <a style="text-decoration: none; color: white;" href="<?= $baseUrl ?>/for-you?id=<?= htmlspecialchars($item['id']) ?>">
+                <div class="img-div">
+                  <img src="<?= htmlspecialchars($item['poster_portrait']) ?>" alt="img" width="140" height="140"/>
+                </div>
+         
+                <div class="typography">
+                  <h4><?= htmlspecialchars($item['title']) ?></h4>
+                  <p class="genre"><?= htmlspecialchars(implode(", ", $item['genres'])) ?></p>
+                </div>
+              </a>
+            </div>
           </div>
-        </div>
-      <?php endforeach; ?>
-  </div>
+        <?php endforeach; ?>
+      </div>
+      <div class="row2">
+        <?php foreach ($new_and_hot_item as $item): ?>
+          <div class="rows">
+            <div class="content-container">
+              <a style="text-decoration: none; color: white;" href="<?= $baseUrl ?>/for-you?id=<?= htmlspecialchars($item['id']) ?>">
+                <div class="img-div">
+                  <img src="<?= htmlspecialchars($item['poster_portrait']) ?>" alt="img" width="140" height="140"/>
+                </div>
+         
+                <div class="typography">
+                  <h4><?= htmlspecialchars($item['title']) ?></h4>
+                  <p class="genre"><?= htmlspecialchars(implode(", ", $item['genres'])) ?></p>
+                </div>
+              </a>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
 
     </div>
   </div>
@@ -368,13 +388,25 @@
         <?php foreach ($new_and_hot_items as $item): ?>
           <div class="card">
             <img src="<?= htmlspecialchars($item['poster_portrait']) ?>" alt="Card Image" class="card-image" />
-            <div class="card-overlay-most-trend">
-              <div class="overlayTypo">
-                <h3><?= htmlspecialchars($item['title']) ?></h3>
-                <p class="genre"><?= htmlspecialchars(implode(", ", $item['genres'])) ?></p>
+            <div class="card-overlay">
+                <div class="overlayTypo">
+                  <h3><?= htmlspecialchars($item['title']) ?></h3>
+                  <p class="genre"><?= htmlspecialchars(implode(", ", $item['genres'])) ?></p>
+                  <p class="description"><?php $description = $item['description'] ?? 'No description';
+                                          $maxLength = 200; // Adjust based on your design
+                                          if (strlen($description) > $maxLength) {
+                                            $description = substr($description, 0, $maxLength) . '....';
+                                          }
+                                          echo htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
+                                          ?></p>
+                </div>
+                <a href="<?= $baseUrl ?>/for-you?id=<?= htmlspecialchars($item['id']) ?>">
+                  <button class="watch-button">▶ Watch now</button>
+                </a>
               </div>
-              <button class="watch-button">▶ Watch now</button>
-            </div>
+              <div class="card-content">
+                <p class="movieTitle"><?= htmlspecialchars($item['title']) ?></p>
+              </div>
           </div>
         <?php endforeach; ?>
       </div>

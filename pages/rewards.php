@@ -40,14 +40,13 @@ window.addEventListener('beforeunload', stopRotation);
 <script>
 // Function to start the blinking animation
 function startBlinking() {
-    const star = document.querySelector('.rewardStars1');
-    if (star) star.classList.add('blink');
+    const stars = document.querySelectorAll('.rewardStars1, .rewardStars2, .rewardStars3, .rewardStars5, .rewardStars6, .rewardStars7');
+    stars.forEach(star => star.classList.add('blink'));
 }
 
-// Function to stop the blinking animation
 function stopBlinking() {
-    const star = document.querySelector('.rewardStars1');
-    if (star) star.classList.remove('blink');
+    const stars = document.querySelectorAll('.rewardStars1, .rewardStars2, .rewardStars3, .rewardStars5, .rewardStars6, .rewardStars7');
+    stars.forEach(star => star.classList.remove('blink'));
 }
 
 // Start animation when the page loads
@@ -83,6 +82,7 @@ window.addEventListener('beforeunload', stopBlinking);
           <img src="assets\star.svg" alt="stars" class="rewardStars5">
           <img src="assets\star.svg" alt="stars" class="rewardStars6">
           <img src="assets\star.svg" alt="stars" class="rewardStars7">
+          <img src="assets\star.svg" alt="stars" class="rewardStars8">
         </div>
       </div>
       <div class="content-div">

@@ -93,6 +93,7 @@ if (isset($response['data']) && is_array($response['data'])) {
     /* MODIFIED: Adjusted to group navigation buttons with 1rem gap and centered alignment */
     .nav-buttons {
       position: absolute;
+      display: none;
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
@@ -104,6 +105,7 @@ if (isset($response['data']) && is_array($response['data'])) {
     
     .next-video-btn, .prev-video-btn { /* MODIFIED: Added prev-video-btn */
       background: none;
+      display: none;
       border: none;
       cursor: pointer;
     }
