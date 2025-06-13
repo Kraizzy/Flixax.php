@@ -341,19 +341,20 @@ if (isset($response['data']) && is_array($response['data'])) {
             }
           });
           
-          // ADDED: Mouse scroll navigation with debounce
-          let scrollTimeout;
-          document.addEventListener('wheel', function(e) {
-            e.preventDefault(); // Prevent default scrolling
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-              if (e.deltaY > 0) {
-                navigateVideo('next'); // Scroll down
-              } else if (e.deltaY < 0) {
-                navigateVideo('prev'); // Scroll up
-              }
-            }, 200); // Debounce delay of 200ms
-          }, { passive: false });
+           // Mouse wheel and trackpad scroll navigation with debounce
+  let scrollTimeout;
+  document.addEventListener('wheel', function(e) {
+    e.preventDefault(); // Prevent default scrolling
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      // Handle both vertical (deltaY) and horizontal (deltaX) scrolling
+      if (e.deltaY > 0 || e.deltaX > 0) {
+        navigateVideo('next'); // Scroll down or right
+      } else if (e.deltaY < 0 || e.deltaX < 0) {
+        navigateVideo('prev'); // Scroll up or left
+      }
+    }, 50); // Debounce delay of 5s0ms
+  }, { passive: false });
           
           // Add error handling for video load
           const videoIframe = document.querySelector('.video-player');

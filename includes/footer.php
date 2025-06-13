@@ -43,8 +43,8 @@
 }
 
 .logo-social img {
-  width: 100px; /* Adjust as needed */
-  height: 24px;
+  width: 8rem; /* Adjust as needed */
+  height: 2reme;
 }
 
 .social-icons {

@@ -63,9 +63,10 @@ NAVBAR STYLING
 .nav-link{
   display: inline-flex;
   color: #fff;
+  width: 4.5rem;
   padding: 0 0.625rem;
   user-select: none;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-family: "Nunito", sans-serif;
   font-weight: 600;
 }
@@ -1196,12 +1197,12 @@ Rewards CSS Styling
 .coin-background{
   position: absolute;
   top: 6.25rem;
-  right: 20.8rem;
+  right: 24.8rem;
 }
 .coin-background2{
   position: absolute;
-  top: 3.87rem;
-  right: 0rem;
+  top: 5.87rem;
+  right: 1rem;
 }
 .rewardStars1{
   position: absolute;
@@ -1278,7 +1279,7 @@ Rewards CSS Styling
 }
 /* Define the rotation animation */
 .rotate {
-    animation: spin 40s linear infinite; /* 4s duration, linear timing, infinite loop */
+    animation: spin 80s linear infinite; /* 4s duration, linear timing, infinite loop */
 }
 
 /* Keyframes for 360-degree rotation */
@@ -1292,7 +1293,7 @@ Rewards CSS Styling
 }
  /* Define the blinking animation */
   .blink {
-    animation: blinkEffect 1s linear infinite; /* 1s duration, linear timing, infinite loop */
+    animation: blinkEffect 1.8s linear infinite; /* 1s duration, linear timing, infinite loop */
   }
 
   /* Keyframes for blinking effect (opacity change) */
@@ -1546,6 +1547,16 @@ Rewards CSS Styling
   flex-direction: column;
   gap: 12.5px;
 }
+.reward-content {
+  transition: all 0.3s ease-in-out;
+}
+.reward-content[style*="display: none"] {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
 /* We recommmend Section  */
 
 .grid-section {
