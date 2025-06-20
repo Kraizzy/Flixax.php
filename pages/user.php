@@ -1,43 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Profile</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Wallet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
   <body>
     <!-- User content  -->
     <div class="user-container">
       <div class="login-div">
         <div class="user-info">
           <div class="head-info">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="80"
-              height="80"
-              viewBox="0 0 80 80"
-              fill="none"
-            >
-              <circle
-                cx="40"
-                cy="40"
-                r="39.3"
-                fill="#FA528C"
-                stroke="black"
-                stroke-width="1.4"
-              />
-            </svg>
+            <img
+              id="userPhoto"
+              src="default.png"
+              alt="User Photo"
+              style="border-radius: 50%;"
+            />
             <div class="user-id">
-              <h4>Visitor 32479019</h4>
+              <h4 id="userName">Welcome Guest</h4>
               <p class="ID">
-                ID 32479019
+                ID <span id="userId">32479019</span> 
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +40,7 @@
               </p>
             </div>
           </div>
-          <button>Log In</button>
+          <button id="loginBtn">Log In</button>
         </div>
         <div class="subscribe">
           <div class="sub-descr">
@@ -165,35 +149,101 @@
         </div>
       </div>
     </div>
-    <script>
-      // wait until the DOM is fully parsed
-      window.addEventListener("DOMContentLoaded", () => {
-        const filterDiv = document.querySelector(".filter-div");
-        const dropdown = document.querySelector(".dropdown-menu");
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    signOut,
+    onAuthStateChanged,
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        filterDiv.addEventListener("click", (e) => {
-          e.stopPropagation();
-          filterDiv.classList.toggle("open");
-        });
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // closes it
-        document.addEventListener("click", () => {
-          filterDiv.classList.remove("open");
-        });
-        // Hambuger
-        const nav = document.querySelector(".nav-bar");
-        const toggle = nav.querySelector(".hamburger");
+  // ✅ Wrap the logic (not imports) in DOMContentLoaded
+  window.addEventListener('DOMContentLoaded', () => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKF8aSovnjDyQvt8jynLaO4ozk02fYYbo",
+      authDomain: "flixax-web.firebaseapp.com",
+      projectId: "flixax-web",
+      storageBucket: "flixax-web.firebasestorage.app",
+      messagingSenderId: "986244187088",
+      appId: "1:986244187088:web:1b31dc428dee4300346fd5",
+      measurementId: "G-BT5STQJC7G"
+    };
 
-        toggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          nav.classList.toggle("open");
-        });
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    const db = getFirestore(app);
 
-        // close menu when clicking outside
-        document.addEventListener("click", () => {
-          nav.classList.remove("open");
-        });
-      });
-    </script>
+    const loginBtn = document.getElementById('loginBtn');
+    const userNameEl = document.getElementById('userName');
+    const userIdEl = document.getElementById('userId');
+    const userPhotoEl = document.getElementById('userPhoto');
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        updateUI(user);
+      } else {
+        resetUI();
+      }
+    });
+
+    loginBtn.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (user) {
+        await signOut(auth);
+      } else {
+        try {
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+          if (!userSnap.exists()) {
+            await setDoc(userRef, {
+              uid: user.uid,
+              email: user.email,
+              name: user.displayName,
+              photoURL: user.photoURL,
+              createdAt: new Date().toISOString()
+            });
+          }
+
+          updateUI(user);
+        } catch (error) {
+          console.error("Sign-in error:", error);
+        }
+      }
+    });
+     document.getElementById("loginBtn").addEventListener("click", function () {
+    alert("Login logic goes here");
+    // or Firebase auth or API call
+  });
+
+    function updateUI(user) {
+      console.log("Photo URL:", user.photoURL); // Debug
+      userNameEl.textContent = `Welcome ${user.displayName || 'User'}`;
+      userIdEl.textContent = user.uid || 'Unavailable';
+      userPhotoEl.src = user.photoURL || 'default.png';
+      loginBtn.textContent = 'Log Out';
+    }
+
+    function resetUI() {
+      userNameEl.textContent = 'Welcome Guest';
+      userIdEl.textContent = 'ID 32479019';
+      userPhotoEl.src = 'default.png';
+      loginBtn.textContent = 'Log In';
+    }
+  });
+</script>
+
   </body>
 </html>
