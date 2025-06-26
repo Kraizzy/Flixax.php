@@ -1,7 +1,6 @@
-
 <?php
 include __DIR__ . '/../includes/api-functions.php';
-$response = fetchApiData("http://linkskool.net/api/v3/public/movies/all");
+$response = fetchApiData("http://linkskool.net/api/v3/public/movies/shorts");
 
 // Initialize variables
 $allMovies = [];
@@ -9,29 +8,15 @@ $allMovieIds = [];
 $currentMovieId = null;
 $currentIndex = 0;
 
-// Debug: View the complete API response structure
-// echo '<pre>'; print_r($response); echo '</pre>'; exit;
-
-// Get all movies from all categories
 if (isset($response['data']) && is_array($response['data'])) {
-    // Define the categories we want to include
-    $categories = ['hot', 'recommended', 'new_and_trending']; // Add any other categories you want
-    
-    foreach ($categories as $category) {
-        if (isset($response['data'][$category]) && is_array($response['data'][$category])) {
-            $allMovies = array_merge($allMovies, $response['data'][$category]);
-        }
-    }
-    
-    // Extract all movie IDs
+    $allMovies = $response['data'];
     $allMovieIds = array_column($allMovies, 'id');
-    
-    // Only proceed if we have valid movies
+
     if (!empty($allMovieIds)) {
         $currentMovieId = $_GET['id'] ?? $allMovieIds[array_rand($allMovieIds)];
+
+        // Fix: Ensure currentIndex is not false before using it
         $currentIndex = array_search($currentMovieId, $allMovieIds);
-        
-        // Fallback if ID not found
         if ($currentIndex === false) {
             $currentMovieId = $allMovieIds[array_rand($allMovieIds)];
             $currentIndex = array_search($currentMovieId, $allMovieIds);
@@ -218,7 +203,6 @@ if (isset($response['data']) && is_array($response['data'])) {
     
   <?php if (!empty($allMovies) && $currentMovieId): ?>
     <?php 
-    // Find current movie
     $currentMovie = null;
     foreach ($allMovies as $movie) {
         if ($movie['id'] == $currentMovieId) {
@@ -226,21 +210,23 @@ if (isset($response['data']) && is_array($response['data'])) {
             break;
         }
     }
+
+    $videoUrl = $currentMovie['video_url'] ?? null;
     ?>
     
     <?php if ($currentMovie): ?>
       <div class="app-container">
         <!-- Video Column -->
         <div class="video-column">
-          <div class="video-container">
-            <iframe 
-              class="video-player"
-              src="<?= htmlspecialchars($currentMovie['video_url'] ?? "https://vidsrc.to/embed/movie/{$currentMovieId}") ?>?autoplay=1&mute=1" 
-              frameborder="0" 
-              allowfullscreen
-              allow="autoplay"
-            ></iframe>
-          </div>
+         <?php if ($videoUrl): ?>
+  <video class="video-player" autoplay controls playsinline>
+    <source src="<?= htmlspecialchars($videoUrl) ?>" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+<?php else: ?>
+  <p>No video available for this content.</p>
+<?php endif; ?>
+
           <!-- CHANGED: Wrapped buttons in nav-buttons container for grouping -->
           <div class="nav-buttons">
             <!-- ADDED: Previous video button -->
@@ -302,67 +288,71 @@ if (isset($response['data']) && is_array($response['data'])) {
       
       <!-- MODIFIED: Added scroll event handling and updated keyboard navigation -->
       <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const nextVideoBtn = document.getElementById('nextVideoBtn');
-          const prevVideoBtn = document.getElementById('prevVideoBtn'); // ADDED: Reference to prev button
-          const allMovieIds = <?= json_encode($allMovieIds) ?>;
-          const currentMovieId = <?= json_encode($currentMovieId) ?>;
-          
-          // Navigation function
-          function navigateVideo(direction) {
-            const currentIndex = allMovieIds.indexOf(currentMovieId);
-            let nextIndex;
-            if (direction === 'next') {
-              nextIndex = (currentIndex + 1) % allMovieIds.length;
-            } else if (direction === 'prev') {
-              nextIndex = (currentIndex - 1 + allMovieIds.length) % allMovieIds.length;
-            }
-            window.location.href = `?id=${allMovieIds[nextIndex]}`;
-          }
-          
-          // Next video button click handler
-          nextVideoBtn.addEventListener('click', function() {
-            navigateVideo('next');
-          });
-          
-          // ADDED: Previous video button click handler
-          prevVideoBtn.addEventListener('click', function() {
-            navigateVideo('prev');
-          });
-          
-          // MODIFIED: Updated keyboard navigation to include ArrowUp/ArrowDown
-          document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-              e.preventDefault();
-              navigateVideo('next');
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-              e.preventDefault();
-              navigateVideo('prev');
-            }
-          });
-          
-           // Mouse wheel and trackpad scroll navigation with debounce
-  let scrollTimeout;
-  document.addEventListener('wheel', function(e) {
-    e.preventDefault(); // Prevent default scrolling
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      // Handle both vertical (deltaY) and horizontal (deltaX) scrolling
-      if (e.deltaY > 0 || e.deltaX > 0) {
-        navigateVideo('next'); // Scroll down or right
-      } else if (e.deltaY < 0 || e.deltaX < 0) {
-        navigateVideo('prev'); // Scroll up or left
+  document.addEventListener('DOMContentLoaded', function() {
+    const nextVideoBtn = document.getElementById('nextVideoBtn');
+    const prevVideoBtn = document.getElementById('prevVideoBtn');
+    const allMovieIds = <?= json_encode($allMovieIds) ?>.map(String);
+
+    // ✅ Get the current movie ID from the URL
+    function getCurrentMovieId() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      return id ?? allMovieIds[0]; // fallback to first ID if missing
+    }
+
+    // ✅ Updated navigation logic using live URL value
+    function navigateVideo(direction) {
+      const currentId = getCurrentMovieId();
+      const currentIndex = allMovieIds.indexOf(currentId);
+      if (currentIndex === -1) return; // Invalid ID fallback
+
+      let nextIndex;
+      if (direction === 'next') {
+        nextIndex = (currentIndex + 1) % allMovieIds.length;
+      } else if (direction === 'prev') {
+        nextIndex = (currentIndex - 1 + allMovieIds.length) % allMovieIds.length;
       }
-    }, 50); // Debounce delay of 5s0ms
-  }, { passive: false });
-          
-          // Add error handling for video load
-          const videoIframe = document.querySelector('.video-player');
-          videoIframe.onerror = function() {
-            console.error('Error loading video');
-          };
-        });
-      </script>
+
+      window.location.href = `?id=${allMovieIds[nextIndex]}`;
+    }
+
+    // Button click events
+    nextVideoBtn.addEventListener('click', () => navigateVideo('next'));
+    prevVideoBtn.addEventListener('click', () => navigateVideo('prev'));
+
+    // Keyboard arrow navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        navigateVideo('next');
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        navigateVideo('prev');
+      }
+    });
+
+    // Scroll wheel navigation (debounced)
+    let scrollTimeout;
+    document.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (e.deltaY > 0 || e.deltaX > 0) {
+          navigateVideo('next');
+        } else if (e.deltaY < 0 || e.deltaX < 0) {
+          navigateVideo('prev');
+        }
+      }, 50);
+    }, { passive: false });
+
+    // Basic error log
+    const videoElement = document.querySelector('.video-player');
+    videoElement.onerror = function() {
+      console.error('Error loading video');
+    };
+  });
+</script>
+
     <?php endif; ?>
   <?php else: ?>
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh; color: white;">
