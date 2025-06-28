@@ -364,6 +364,27 @@ $isTVShow = $selectedMovie && isset($selectedMovie['has_sub_series']) && $select
                         </div>
             </div>
         </div>
+        <?php
+
+if ($selectedMovie && isset($selectedMovie['id'])) {
+    $recent = $_SESSION['recently_watched'] ?? [];
+
+    // Remove existing if already in list to avoid duplicates
+    $recent = array_filter($recent, function ($m) use ($movieId) {
+        return $m['id'] != $movieId;
+    });
+
+    // Add movie to front
+    array_unshift($recent, [
+        'id' => $selectedMovie['id'],
+        'title' => $selectedMovie['title'] ?? 'Untitled',
+        'thumbnail' => $selectedMovie['thumbnail'] ?? ''
+    ]);
+
+    // Limit to 20 entries max
+    $_SESSION['recently_watched'] = array_slice($recent, 0, 20);
+}
+?>
         <?php if ($isTVShow): ?>
           <div class="episode-dropmenu">
             <button class="episode-btn">ALL EPISODES</button>

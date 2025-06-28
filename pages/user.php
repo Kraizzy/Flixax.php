@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,15 +15,18 @@
           <div class="head-info">
             <img
               id="userPhoto"
-              src="default.png"
+              src="assets/avatar-default-svgrepo-com.svg"
               alt="User Photo"
-              style="border-radius: 50%;"
+              width="70"
+              height="70"
+              
+              style="border-radius: 50%; background-color: #ccc;"
             />
             <div class="user-id">
               <h4 id="userName">Welcome Guest</h4>
               <p class="ID">
-                ID <span id="userId">32479019</span> 
-                <span>
+              <span id="userId">-</span> 
+                <span id="copyUserIdBtn" style="cursor: pointer;">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -75,7 +79,7 @@
               <h3><span>0</span> Coins</h3>
               <h3><span>0</span> Coins</h3>
             </div>
-            <button>Top Up</button>
+            <button onclick="window.location.href='<?= $baseUrl ?>/rewards'">Top Up</button>
           </div>
         </div>
         <div class="wallet-body">
@@ -149,101 +153,80 @@
         </div>
       </div>
     </div>
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth,
-    signInWithPopup,
-    GoogleAuthProvider,
-    signOut,
-    onAuthStateChanged,
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+   <script type="module">
+  // user-page.js
+import {
+  auth,
+  provider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from './assets/js/firebase.js';
 
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+window.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const userNameEl = document.getElementById("userName");
+  const userIdEl = document.getElementById("userId");
+  const userPhotoEl = document.getElementById("userPhoto");
 
-  // ✅ Wrap the logic (not imports) in DOMContentLoaded
-  window.addEventListener('DOMContentLoaded', () => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyBKF8aSovnjDyQvt8jynLaO4ozk02fYYbo",
-      authDomain: "flixax-web.firebaseapp.com",
-      projectId: "flixax-web",
-      storageBucket: "flixax-web.firebasestorage.app",
-      messagingSenderId: "986244187088",
-      appId: "1:986244187088:web:1b31dc428dee4300346fd5",
-      measurementId: "G-BT5STQJC7G"
-    };
+  function shortenUid(uid) {
+    return uid ? uid.substring(0, 6) + "..." : "unknown";
+  }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    const db = getFirestore(app);
+  function updateUI(user) {
+    userNameEl.textContent = `Welcome ${user.displayName || "User"}`;
+    userIdEl.textContent = `ID ${shortenUid(user.uid)}`;
+    userPhotoEl.src = user.photoURL || "assets/avatar-default-svgrepo-com.svg";
+  }
 
-    const loginBtn = document.getElementById('loginBtn');
-    const userNameEl = document.getElementById('userName');
-    const userIdEl = document.getElementById('userId');
-    const userPhotoEl = document.getElementById('userPhoto');
+  function resetUI() {
+    userNameEl.textContent = "Welcome Guest";
+    userIdEl.textContent = "ID --";
+    userPhotoEl.src = "assets/avatar-default-svgrepo-com.svg";
+  }
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        updateUI(user);
-      } else {
-        resetUI();
-      }
-    });
-
-    loginBtn.addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (user) {
-        await signOut(auth);
-      } else {
-        try {
-          const result = await signInWithPopup(auth, provider);
-          const user = result.user;
-
-          const userRef = doc(db, "users", user.uid);
-          const userSnap = await getDoc(userRef);
-          if (!userSnap.exists()) {
-            await setDoc(userRef, {
-              uid: user.uid,
-              email: user.email,
-              name: user.displayName,
-              photoURL: user.photoURL,
-              createdAt: new Date().toISOString()
-            });
-          }
-
-          updateUI(user);
-        } catch (error) {
-          console.error("Sign-in error:", error);
-        }
-      }
-    });
-     document.getElementById("loginBtn").addEventListener("click", function () {
-    alert("Login logic goes here");
-    // or Firebase auth or API call
+  onAuthStateChanged(auth, (user) => {
+    user ? updateUI(user) : resetUI();
   });
 
-    function updateUI(user) {
-      console.log("Photo URL:", user.photoURL); // Debug
-      userNameEl.textContent = `Welcome ${user.displayName || 'User'}`;
-      userIdEl.textContent = user.uid || 'Unavailable';
-      userPhotoEl.src = user.photoURL || 'default.png';
-      loginBtn.textContent = 'Log Out';
+  loginBtn.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await signOut(auth);
+    } else {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error("Sign-in error:", error);
+      }
     }
+  });
+});
+import { setupAuthUI } from './assets/js/AuthUI.js';
+window.addEventListener("DOMContentLoaded", () => {
+  setupAuthUI({
+    loginBtn: document.getElementById("loginBtn"),
+    userNameEl: document.getElementById("userName"),
+    userIdEl: document.getElementById("userId"),
+    userPhotoEl: document.getElementById("userPhoto")
+  });
+});
 
-    function resetUI() {
-      userNameEl.textContent = 'Welcome Guest';
-      userIdEl.textContent = 'ID 32479019';
-      userPhotoEl.src = 'default.png';
-      loginBtn.textContent = 'Log In';
+</script>
+<script>
+   document.getElementById('copyUserIdBtn').addEventListener('click', () => {
+    const userIdText = document.getElementById('userId').innerText.trim();
+
+    if (userIdText) {
+      navigator.clipboard.writeText(userIdText)
+        .then(() => {
+          window.alert('User ID copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Failed to copy User ID:', err);
+        });
     }
   });
 </script>
-
   </body>
 </html>

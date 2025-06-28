@@ -1,40 +1,19 @@
-
 <?php
 include __DIR__ . '/../includes/api-functions.php';
-$response = fetchApiData("http://linkskool.net/api/v3/public/movies/all");
 
-// Initialize variables
-$allMovies = [];
-$allMovieIds = [];
-$currentMovieId = null;
-$currentIndex = 0;
+// Fetch all movies for initial page
+$response = fetchApiData("http://linkskool.net/api/v3/public/movies/shorts");
+$allMovies = $response['data'] ?? [];
+$allMovieIds = array_column($allMovies, 'id');
 
-// Debug: View the complete API response structure
-// echo '<pre>'; print_r($response); echo '</pre>'; exit;
+$currentMovieId = $_GET['id'] ?? ($allMovieIds[array_rand($allMovieIds)] ?? null);
+$currentMovie = null;
 
-// Get all movies from all categories
-if (isset($response['data']) && is_array($response['data'])) {
-    // Define the categories we want to include
-    $categories = ['hot', 'recommended', 'new_and_trending']; // Add any other categories you want
-    
-    foreach ($categories as $category) {
-        if (isset($response['data'][$category]) && is_array($response['data'][$category])) {
-            $allMovies = array_merge($allMovies, $response['data'][$category]);
-        }
-    }
-    
-    // Extract all movie IDs
-    $allMovieIds = array_column($allMovies, 'id');
-    
-    // Only proceed if we have valid movies
-    if (!empty($allMovieIds)) {
-        $currentMovieId = $_GET['id'] ?? $allMovieIds[array_rand($allMovieIds)];
-        $currentIndex = array_search($currentMovieId, $allMovieIds);
-        
-        // Fallback if ID not found
-        if ($currentIndex === false) {
-            $currentMovieId = $allMovieIds[array_rand($allMovieIds)];
-            $currentIndex = array_search($currentMovieId, $allMovieIds);
+if ($currentMovieId) {
+    foreach ($allMovies as $movie) {
+        if ($movie['id'] == $currentMovieId) {
+            $currentMovie = $movie;
+            break;
         }
     }
 }
@@ -51,15 +30,15 @@ if (isset($response['data']) && is_array($response['data'])) {
       padding: 0;
       background-color: #000;
       color: white;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow: hidden;
+      font-family: "Nunito",-apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-y: auto;
     }
     
     .app-container {
       display: flex;
-      margin-top: 3.7rem;
+      margin-top: 4rem;
       height: 92vh;
-      padding: 0.5rem;
+      padding: 0.9rem 1.5rem;
     }
     
     .video-column {
@@ -72,8 +51,9 @@ if (isset($response['data']) && is_array($response['data'])) {
     .info-column {
       flex: 1;
       margin-top: 4.2rem;
+      margin-left: 0.98rem;
       padding: 20px;
-      height: 80%;
+       height: 40vh;
       overflow-y: auto;
       background: rgba(0,0,0,0.7);
     }
@@ -82,11 +62,11 @@ if (isset($response['data']) && is_array($response['data'])) {
       position: relative;
       height: 97.5%;
       user-select: none;
-      width: 85%;
+      width: 80%;
     }
     
     .video-player {
-      width: 100%;
+      width: 95%;
       user-select: none;
       height: 100%;
       object-fit: cover;
@@ -99,7 +79,6 @@ if (isset($response['data']) && is_array($response['data'])) {
       right: 20px;
       top: 50%;
       transform: translateY(-50%);
-      display: flex;
       flex-direction: column;
       gap: 1rem; /* ADDED: 1rem gap between buttons */
       z-index: 20;
@@ -119,13 +98,28 @@ if (isset($response['data']) && is_array($response['data'])) {
     }
     
     .video-title {
-      font-size: 1.8rem;
+     font-size: 1.8rem;
       font-weight: bold;
       margin-bottom: 15px;
     }
-    
+.lazy-video{
+  position: relative;
+  width: 95%;
+  height: 100%;
+  user-select: none;
+  object-fit: cover;
+}
+.video-thumb{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-info{
+  padding: 10px 12px;
+}
     .video-meta {
-      display: flex;
+       display: flex;
       gap: 15px;
       margin-bottom: 15px;
       font-size: 0.9rem;
@@ -138,8 +132,12 @@ if (isset($response['data']) && is_array($response['data'])) {
     }
     
     .video-description {
-      margin-bottom: 30px;
-      line-height: 1.5;
+      font-size: 1rem;
+  color: #fff;
+  line-height: 1.4;
+  max-height: 3.5em;
+  overflow: hidden;
+
     }
     
     .action-buttons {
@@ -212,162 +210,255 @@ if (isset($response['data']) && is_array($response['data'])) {
         height: 30px;
       }
     }
+    /* Skeleton styles */
+.skeleton {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 65%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+  height: 20px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.skeleton-title {
+  height: 32px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.skeleton-genre {
+  width: 80px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.skeleton-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+}
+
+.skeleton-video {
+  height: 85%;
+  width: 85%;
+  margin-left: 15px;
+  border-radius: 10px;
+}
   </style>
 </head>
 <body>
-    
-  <?php if (!empty($allMovies) && $currentMovieId): ?>
-    <?php 
-    // Find current movie
-    $currentMovie = null;
-    foreach ($allMovies as $movie) {
-        if ($movie['id'] == $currentMovieId) {
-            $currentMovie = $movie;
-            break;
-        }
-    }
-    ?>
-    
-    <?php if ($currentMovie): ?>
-      <div class="app-container">
-        <!-- Video Column -->
-        <div class="video-column">
-          <div class="video-container">
-            <iframe 
-              class="video-player"
-              src="<?= htmlspecialchars($currentMovie['video_url'] ?? "https://vidsrc.to/embed/movie/{$currentMovieId}") ?>?autoplay=1&mute=1" 
-              frameborder="0" 
-              allowfullscreen
-              allow="autoplay"
-            ></iframe>
-          </div>
-          <!-- CHANGED: Wrapped buttons in nav-buttons container for grouping -->
-          <div class="nav-buttons">
-            <!-- ADDED: Previous video button -->
-            <button class="prev-video-btn" id="prevVideoBtn">
-              <img src="assets/up-arrow.png" alt="up-arrow">
-            </button>
-            <button class="next-video-btn" id="nextVideoBtn">
-              <img src="assets/down-arrow.png" alt="down-arrow">
-            </button>
-          </div>
-        </div>
+  <main class="video-feed">
+    <div class="app-container">
+      <!-- Video Column -->
+      <div class="video-column">
+        <div id="videoSkeleton" class="skeleton skeleton-video" style="display: block;"></div>
         
-        <!-- Info Column -->
-        <div class="info-column">
-          <h1 class="video-title"><?= htmlspecialchars($currentMovie['title'] ?? 'Untitled') ?></h1>
-          
+        <video id="videoPlayer" class="video-player" autoplay controls playsinline style="display: none;">
+          <source src="" type="video/mp4">
+        </video>
+
+        <div class="nav-buttons">
+          <button class="prev-video-btn" id="prevVideoBtn">
+            <img src="assets/up-arrow.png" alt="Previous">
+          </button>
+          <button class="next-video-btn" id="nextVideoBtn">
+            <img src="assets/down-arrow.png" alt="Next">
+          </button>
+        </div>
+      </div>
+
+      <!-- Info Column -->
+      <div class="info-column" id="infoColumn" style="display: none;"></div>
+    </div>
+
+    <!-- Video Feed Grid -->
+    <div class="video-feed-container" id="videoFeed"">
+      <!-- Cards injected here -->
+    </div>
+  </main>
+
+  <div id="loading" class="loading-spinner" style="display: none;">Loading...</div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const currentMovieId = "<?= $currentMovieId ?>";
+    const allMovieIds = <?= json_encode($allMovieIds) ?>;
+    let currentIndex = allMovieIds.indexOf(currentMovieId);
+
+    function fetchMovieInfo(id) {
+      $('#infoColumn').hide();
+      $('#videoPlayer').hide();
+      $('#videoSkeleton').show();
+
+      $.getJSON('pages/get-movie.php', { id }, function(data) {
+        if (!data) return;
+
+        // Update video source
+        const videoPlayer = $('#videoPlayer');
+        videoPlayer.find('source').attr('src', data.video_url);
+        videoPlayer[0].load();  // Force reload
+        videoPlayer.show();
+
+        $('#videoSkeleton').hide();
+
+        // Build info HTML
+        let html = `
+          <h1 class="video-title">${data.title}</h1>
           <div class="video-meta">
-            <?php if (!empty($currentMovie['genres'])): ?>
-              <?php foreach ($currentMovie['genres'] as $genre): ?>
-                <span class="genre-tag"><?= htmlspecialchars($genre) ?></span>
-              <?php endforeach; ?>
-            <?php endif; ?>
+            ${(data.genres || []).map(g => `<span class="genre-tag">${g}</span>`).join('')}
           </div>
-          
           <div class="action-buttons">
-            <div class="action-button" id="addToListBtn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-              </svg>
-              <span>Add to List</span>
-            </div>
-            
-            <div class="action-button" id="shareBtn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
-                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
-              </svg>
-              <span>Share</span>
-            </div>
+            <div class="action-button">Add to List</div>
+            <div class="action-button">Share</div>
           </div>
-          
-          <p class="video-description">
-            <?= htmlspecialchars($currentMovie['description'] ?? 'No description available') ?>
-          </p>
-          
-          <?php if (!empty($currentMovie['episodes']) && is_array($currentMovie['episodes'])): ?>
+          <p class="video-description">${data.description || ''}</p>
+        `;
+
+        if (Array.isArray(data.episodes) && data.episodes.length > 0) {
+          html += `
             <div class="episodes-section">
               <div class="episodes-title">All Episodes</div>
               <div class="episode-list">
-                <?php foreach ($currentMovie['episodes'] as $index => $episode): ?>
-                  <div class="episode-item">
-                    EP<?= $index + 1 ?>: <?= htmlspecialchars($episode['title'] ?? 'Episode') ?>
-                  </div>
-                <?php endforeach; ?>
+                ${data.episodes.map((ep, i) => `<div class="episode-item">EP${i + 1}: ${ep.title}</div>`).join('')}
               </div>
             </div>
-          <?php endif; ?>
-        </div>
-      </div>
-      
-      <!-- MODIFIED: Added scroll event handling and updated keyboard navigation -->
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const nextVideoBtn = document.getElementById('nextVideoBtn');
-          const prevVideoBtn = document.getElementById('prevVideoBtn'); // ADDED: Reference to prev button
-          const allMovieIds = <?= json_encode($allMovieIds) ?>;
-          const currentMovieId = <?= json_encode($currentMovieId) ?>;
-          
-          // Navigation function
-          function navigateVideo(direction) {
-            const currentIndex = allMovieIds.indexOf(currentMovieId);
-            let nextIndex;
-            if (direction === 'next') {
-              nextIndex = (currentIndex + 1) % allMovieIds.length;
-            } else if (direction === 'prev') {
-              nextIndex = (currentIndex - 1 + allMovieIds.length) % allMovieIds.length;
-            }
-            window.location.href = `?id=${allMovieIds[nextIndex]}`;
-          }
-          
-          // Next video button click handler
-          nextVideoBtn.addEventListener('click', function() {
-            navigateVideo('next');
-          });
-          
-          // ADDED: Previous video button click handler
-          prevVideoBtn.addEventListener('click', function() {
-            navigateVideo('prev');
-          });
-          
-          // MODIFIED: Updated keyboard navigation to include ArrowUp/ArrowDown
-          document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-              e.preventDefault();
-              navigateVideo('next');
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-              e.preventDefault();
-              navigateVideo('prev');
-            }
-          });
-          
-           // Mouse wheel and trackpad scroll navigation with debounce
-  let scrollTimeout;
-  document.addEventListener('wheel', function(e) {
-    e.preventDefault(); // Prevent default scrolling
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      // Handle both vertical (deltaY) and horizontal (deltaX) scrolling
-      if (e.deltaY > 0 || e.deltaX > 0) {
-        navigateVideo('next'); // Scroll down or right
-      } else if (e.deltaY < 0 || e.deltaX < 0) {
-        navigateVideo('prev'); // Scroll up or left
-      }
-    }, 50); // Debounce delay of 5s0ms
-  }, { passive: false });
-          
-          // Add error handling for video load
-          const videoIframe = document.querySelector('.video-player');
-          videoIframe.onerror = function() {
-            console.error('Error loading video');
-          };
-        });
-      </script>
-    <?php endif; ?>
-  <?php else: ?>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; color: white;">
-      <p>No movies available. Please try again later.</p>
-    </div>
-  <?php endif; ?>
+          `;
+        }
+
+        $('#infoColumn').html(html).show();
+      });
+    }
+
+    function changeVideo(indexDelta) {
+      currentIndex = (currentIndex + indexDelta + allMovieIds.length) % allMovieIds.length;
+      fetchMovieInfo(allMovieIds[currentIndex]);
+    }
+
+    $(document).ready(function() {
+      fetchMovieInfo(currentMovieId);
+
+      // Nav buttons
+      $('#nextVideoBtn').click(() => changeVideo(1));
+      $('#prevVideoBtn').click(() => changeVideo(-1));
+
+      // Keyboard nav
+      document.addEventListener('keydown', (e) => {
+        if (['ArrowRight', 'ArrowDown'].includes(e.key)) {
+          e.preventDefault();
+          changeVideo(1);
+        } else if (['ArrowLeft', 'ArrowUp'].includes(e.key)) {
+          e.preventDefault();
+          changeVideo(-1);
+        }
+      });
+      // Error log
+      document.querySelector('#videoPlayer').addEventListener('error', () => {
+        console.error('Error loading video');
+      });
+    });
+  </script>
+
+  <!-- Lazy Loading Feed + Infinite Scroll -->
+  <script>
+    let currentPage = 1;
+let loading = false;
+const limit = 3;
+
+// Create an IntersectionObserver to watch thumbnails
+const observer = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      const videoUrl = img.dataset.video;
+      if (!videoUrl) return;
+
+      // Create a video element with autoplay
+      const videoElement = document.createElement('video');
+      videoElement.controls = true;
+      videoElement.autoplay = true;
+      videoElement.playsInline = true;
+      videoElement.classList.add('lazy-video');
+
+      const source = document.createElement('source');
+      source.src = videoUrl;
+      source.type = 'video/mp4';
+      videoElement.appendChild(source);
+
+      // Replace the img with video
+      img.parentNode.replaceChild(videoElement, img);
+
+      // Stop observing this image now
+      obs.unobserve(img);
+    }
+  });
+}, {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.5 // Trigger when 50% visible
+});
+
+function fetchBatch(page) {
+  if (loading) return;
+  loading = true;
+  $('#loading').show();
+
+  $.getJSON(`pages/get-movie-batch.php?page=${page}&limit=${limit}`, function(movies) {
+    if (Array.isArray(movies) && movies.length > 0) {
+      movies.forEach(movie => {
+        const card = `
+          <div class="app-container" data-id="${movie.id}">
+            <div class="video-column">
+              <img src="${movie.poster || 'fallback.jpg'}" alt="${movie.title}" class="video-thumb" data-video="${movie.video_url}">
+            </div>
+            <div class="info-column">
+              <h3 class="video-title">${movie.title}</h3>
+              <div class="video-meta">
+                ${(movie.genres || []).map(g => `<span class="genre-tag">${g}</span>`).join('')}
+              </div>
+              <p class="video-description">${movie.description || ''}</p>
+            </div>
+          </div>
+        `;
+        $('#videoFeed').append(card);
+      });
+
+      // After appending, observe all new thumbnails for autoplay
+      $('.video-thumb').each((_, img) => {
+        observer.observe(img);
+      });
+    }
+
+    $('#loading').hide();
+    loading = false;
+    currentPage++;
+  });
+}
+
+// Remove click handler since autoplay replaces that need
+// $(document).off('click', '.video-thumb');
+
+$(window).on('scroll', function() {
+  const nearBottom = $(window).scrollTop() + $(window).height() + 100 >= $(document).height();
+  if (nearBottom && !loading) {
+    fetchBatch(currentPage);
+  }
+});
+
+$(document).ready(function() {
+  fetchBatch(currentPage);
+});
+
+  </script>
 </body>
+
 </html>

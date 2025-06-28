@@ -53,6 +53,66 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies by Genre</title>
     <style>
+         /* SKELETON LOADER */
+        .skeleton {
+            animation: pulse 1.5s infinite ease-in-out;
+            background: linear-gradient(-90deg, #1f1f1f 0%, #2c2c2c 50%, #1f1f1f 100%);
+            background-size: 400% 400%;
+        }
+
+        @keyframes pulse {
+            0% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .skeleton-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 0.8rem 1rem;
+            height: 291px;
+            background-color: #222222;
+            border-radius: 8px;
+        }
+
+        .skeleton-poster {
+            width: 35%;
+            height: 100%;
+            background-color: #333;
+            border-radius: 8px;
+        }
+
+        .skeleton-details {
+            width: 90%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .skeleton-line {
+            height: 20px;
+            border-radius: 4px;
+            background-color: #333;
+        }
+
+        .skeleton-line.short {
+            width: 30%;
+        }
+
+        .skeleton-line.medium {
+            width: 60%;
+        }
+
+        .skeleton-line.long {
+            width: 90%;
+        }
         /* Basic styling for demonstration */
         .movie-list {
             width: 95%;
@@ -201,6 +261,7 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
             gap: 20px;
             width: 280px;
             height: 40px;
+            cursor: pointer;
         }
 
         .div-container {
@@ -261,6 +322,7 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
             display: grid;
             margin: 0 auto;
             width: 95%;
+            padding: 0;
             gap: 1rem 1rem;
             margin-bottom: 1.5rem;
             grid-template-columns: repeat(9, auto);
@@ -305,7 +367,19 @@ $activeGenre = $_GET['genre_id'] ?? null; // ✅ Define it before usage
             <?php if ($genreId === null || $genreId === false): ?>
                 <p class="error">Invalid or missing genre ID.</p>
             <?php elseif (empty($movies)): ?>
-                <p class="error">No movies found for this genre or error loading movies.</p>
+                 <!-- Skeleton Loader Fallback -->
+                <?php for ($i = 0; $i < 8; $i++): ?>
+                    <div class="skeleton-card skeleton">
+                        <div class="skeleton-poster skeleton"></div>
+                        <div class="skeleton-details">
+                            <div class="skeleton-line long skeleton"></div>
+                            <div class="skeleton-line medium skeleton"></div>
+                            <div class="skeleton-line short skeleton"></div>
+                            <div class="skeleton-line long skeleton"></div>
+                        </div>
+                    </div>
+                <?php endfor; ?>
+
             <?php else: ?>
                 <?php foreach ($movies as $movie): ?>
                     <div class="movie-card">

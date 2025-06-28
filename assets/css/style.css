@@ -27,10 +27,11 @@ NAVBAR STYLING
 }
 .nav-bar{
   display: flex;
+  position: relative;
   align-items: center;
   /* background-color: #F4854A; */
   height: 50px;
-  width: 90%;
+  width: 100%;
   padding: 2px 0px;
   margin: 0 auto;
 }
@@ -103,7 +104,7 @@ NAVBAR STYLING
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding-left: 38px;
-  width: 26rem;
+  width: 28rem;
   gap: 1.5rem;
 }
 .search{
@@ -122,7 +123,7 @@ NAVBAR STYLING
 }
 .search-box{
   display: inline;
-  background-color: transparent;
+  background: transparent;
   font-weight: 500;
   line-height: normal;
   font-size: 14px;
@@ -130,9 +131,14 @@ NAVBAR STYLING
   height: 2.2rem;
   color: white;
   outline: none;
-  width: 21.5rem;
+  width: 23.5rem;
   border-style: none;
   
+}
+.search-box:focus{
+  border: none;
+  background-color: transparent;
+  outline: none;
 }
 .search-box::placeholder{
   color: rgba(255, 255, 255, 0.60);
@@ -154,6 +160,9 @@ NAVBAR STYLING
 .filter-icon{
   padding:0;
   margin:0;
+  position: absolute;
+  top: 0;
+  left: 10px;
   height: 24px;
   width: 24px;
 }
@@ -225,51 +234,175 @@ NAVBAR STYLING
   color: #FA528C;
 
 }
-/* User div */
-.user-div{
+.user-div {
+  position: absolute;
+  top: 2px;
+  padding: 5px;
+  right: -2.4rem;
   display: flex;
-  text-align: center;
-  justify-content: center;
   align-items: center;
-  height: 24px;
-  gap: 4px;
 }
-.user-ul{
+.user-icon-border{
+  display: flex;
+  gap: 0.4rem;
+  border-radius: 20px;
+  background-color: rgba(49, 49, 49, 0.5);
+  padding: 0.15rem 0.36rem; 
+  align-items: center;
+}
+.user-dropdown-icon{
+  height: 21px;
   display: flex;
   justify-content: center;
-  gap: 40px;
-  padding: 0;
+  cursor: pointer;
+  align-items: center;
+  width: 21px;
+  border-radius: 8px;
+  background-color: rgba(83, 85, 94, 0.7);
 }
-.user-link{
-  display: inline-block;
-  color: #fff;
+.user-avatar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user-trigger {
   font-size: 1.5rem;
   font-family: "Nunito", sans-serif;
   font-weight: 600;
-}
-.nav-link:hover,
-.nav-ulink .nav-link.active {
+  color: #fff;
   cursor: pointer;
-  background: var(--Flixax-gradient, linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+}
+.user-default-icon{
+  width: 35px;
+  height: 35px;
+}
+/* User avatar styles */
+#user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-/* User div */
-.user-div{
+.user-initial-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "Nunito", sans-serif;
+}
+
+.user-icon {
+  width: 42px;
+  height: 42px;
+}
+
+.user-ul {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  flex-direction: column;
+  background: #222;
+  padding: 0.5rem;
+  gap: 1rem;
+  border-radius: 8px;
+  position: absolute;
+  top: 120%;
+  right: 3rem;
+  z-index: 999;
+  list-style: none;
+  margin: 0;
+  width: 16.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* HOVER DROPDOWN - This is the key change */
+.user-div:hover .user-ul {
+  visibility: visible;
+  opacity: 1;
+}
+.user-email{
   display: flex;
   text-align: center;
-  justify-content: center;
-  vertical-align: center;
-  height: 24px;
-  gap: 4px;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: "Arial" sans-serif;
+  color: #b3b1b1;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
-.user-ul{
+.user-email-wrapper{
   display: flex;
+  width: 85%;
   justify-content: center;
-  gap: 40px;
-  padding: 0;
+  align-items: center;
+  padding: 7px 7px;
+}
+.user-ul li {
+  display: flex;
+  width: auto;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0 0.7rem;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+.user-ul li button {
+  display: flex;
+  text-align: left;
+  font-weight: 400;
+  border-radius: 8px;
+  background-color: none;
+  padding: 0.7rem 0;
+  justify-content: left;
+}
+.user-ul li:hover{
+  background-color: rgba(250, 244, 244, 0.336);
+  color: #ffc65c;
+}
+.uListmenu{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.user-ul .nav-link {
+  display: block;
+  padding: 8px 0px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-family: "Nunito", sans-serif;
+  border-bottom: none;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: none;
+  width: 90%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-ul .nav-link:hover {
+  background: linear-gradient(131deg, #FFBE00 3.18%, #FF55FD 53.67%, #7FBBFF 98.69%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Hero Section Styling */
@@ -840,20 +973,6 @@ User CSS Styling
 
 
 /* User div */
-.user-div{
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  vertical-align: center;
-  height: 24px;
-  gap: 4px;
-}
-.user-ul{
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 0;
-}
 .user-link{
   display: inline-block;
   color: #fff;

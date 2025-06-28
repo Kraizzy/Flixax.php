@@ -348,7 +348,7 @@ function showAllDoneMessage() {
           </div>
           <div class="watchads-div">
             <div class="div-title">
-              <h3>Watch Ads, Win big</h3>
+              <h3>Daily Task</h3>
               <p>Do simple tasks and win bonuses</p>
             </div>
             <div class="watchads-container">

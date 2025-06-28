@@ -1,36 +1,35 @@
 <?php
-// Dummy fetch from TMDB or source (or you pass full info via GET)
-$movieId = $_GET['id'] ?? null;
-$title = $_GET['title'] ?? 'Untitled';
-$thumbnail = $_GET['thumbnail'] ?? 'default.jpg';
+session_start();
 
-if ($movieId) {
-    $movie = [
-        'id' => $movieId,
-        'title' => $title,
-        'thumbnail' => $thumbnail,
-    ];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'] ?? null;
+    $title = $_POST['title'] ?? null;
+    $thumbnail = $_POST['thumbnail'] ?? null;
 
-    // Initialize list if not set
-    if (!isset($_SESSION['collection'])) {
-        $_SESSION['collection'] = [];
-    }
+    if ($id && $title && $thumbnail) {
+        $collection = $_SESSION['collection'] ?? [];
+        $recentlyWatched = $_SESSION['recently_watched'] ?? [];
+        
+        // Check for duplicates
+        $exists = false;
+        foreach ($collection as $movie) {
+            if ($movie['id'] == $id) {
+                $exists = true;
+                break;
+            }
+        }
 
-    // Prevent duplicate
-    $alreadyExists = false;
-    foreach ($_SESSION['collection'] as $item) {
-        if ($item['id'] == $movieId) {
-            $alreadyExists = true;
-            break;
+        if (!$exists) {
+            $collection[] = [
+                'id' => $id,
+                'title' => $title,
+                'thumbnail' => $thumbnail
+            ];
+            $_SESSION['collection'] = $collection;
         }
     }
-
-    if (!$alreadyExists) {
-        $_SESSION['collection'][] = $movie;
-    }
-
-    // Redirect back
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit();
 }
-?>
+
+// Redirect back to previous page
+header("Location: {$_SERVER['HTTP_REFERER']}");
+exit;

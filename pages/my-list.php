@@ -1,5 +1,7 @@
 <?php 
 $collectionMovies = $_SESSION['collection'] ?? [];
+$recentlyWatchedMovies = $_SESSION['recently_watched'] ?? [];
+$baseUrl = "/";
 ?>
 
 <!DOCTYPE html>
@@ -132,7 +134,7 @@ $collectionMovies = $_SESSION['collection'] ?? [];
       <div id="collection-grid" class="movie-grid">
         <?php foreach ($collectionMovies as $movie): ?>
           <div class="movie-card">
-            <img src="<?= htmlspecialchars($movie['thumbnail']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>">
+            <img src="<?= htmlspecialchars($movie['poster_portrait']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>">
             <p class="movie-title"><?= htmlspecialchars($movie['title']) ?></p>
           </div>
         <?php endforeach; ?>
@@ -142,75 +144,6 @@ $collectionMovies = $_SESSION['collection'] ?? [];
 </div>
 
   <script>
-    // Sample data structure (to be replaced with PHP fetch)
-    let recentlyWatched = [];
-    let collection = [];
-
-    // Function to fetch data from PHP (example endpoint)
-    function fetchData() {
-      // Replace with actual PHP endpoint
-      fetch('path/to/your/php/endpoint.php')
-        .then(response => response.json())
-        .then(data => {
-          recentlyWatched = data.recentlyWatched || [];
-          collection = data.collection || [];
-          updateUI();
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    }
-
-    // Function to update UI based on data
-    function updateUI() {
-      const recentlyWatchedGrid = document.getElementById('recently-watched-grid');
-      const recentlyWatchedEmpty = document.getElementById('recently-watched-empty');
-      const collectionGrid = document.getElementById('collection-grid');
-      const collectionEmpty = document.getElementById('collection-empty');
-
-      // Update Recently Watched
-      if (recentlyWatched.length > 0) {
-        recentlyWatchedGrid.innerHTML = '';
-        recentlyWatched.forEach(movie => {
-          const div = document.createElement('div');
-          div.className = 'movie-item';
-          div.innerHTML = `
-            <img src="${movie.poster}" alt="${movie.title}">
-            <p>${movie.title}</p>
-            <p>${movie.status}</p>
-            ${movie.new ? '<span class="new-label">NEW</span>' : ''}
-            <button class="btn" onclick="startWatching('${movie.title}')">Start Watching</button>
-          `;
-          recentlyWatchedGrid.appendChild(div);
-        });
-        recentlyWatchedGrid.style.display = 'grid';
-        recentlyWatchedEmpty.style.display = 'none';
-      } else {
-        recentlyWatchedGrid.style.display = 'none';
-        recentlyWatchedEmpty.style.display = 'block';
-      }
-
-      // Update Collection
-      if (collection.length > 0) {
-        collectionGrid.innerHTML = '';
-        collection.forEach(movie => {
-          const div = document.createElement('div');
-          div.className = 'movie-item';
-          div.innerHTML = `
-            <img src="${movie.poster}" alt="${movie.title}">
-            <p>${movie.title}</p>
-            <p>${movie.status}</p>
-            ${movie.new ? '<span class="new-label">NEW</span>' : ''}
-            <button class="btn" onclick="addToCollection('${movie.title}')">Add to Collection</button>
-          `;
-          collectionGrid.appendChild(div);
-        });
-        collectionGrid.style.display = 'grid';
-        collectionEmpty.style.display = 'none';
-      } else {
-        collectionGrid.style.display = 'none';
-        collectionEmpty.style.display = 'block';
-      }
-    }
-
     // Tab switching
     document.querySelectorAll('.tab-link').forEach(tab => {
       tab.addEventListener('click', (e) => {
@@ -221,20 +154,6 @@ $collectionMovies = $_SESSION['collection'] ?? [];
         document.getElementById(tab.dataset.tab).style.display = 'block';
       });
     });
-
-    // Example functions for actions
-    function startWatching(title) {
-      console.log(`Starting to watch: ${title}`);
-      // Add logic to mark as watched and update server
-    }
-
-    function addToCollection(title) {
-      console.log(`Added to collection: ${title}`);
-      // Add logic to add to collection and update server
-    }
-
-    // Initial fetch
-    fetchData();
   </script>
 </body>
 </html>

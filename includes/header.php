@@ -165,28 +165,116 @@ document.addEventListener('DOMContentLoaded', function () {
                      </svg>
                    </div>
                    <!-- User button -->
-                   <div class="user-div">
-                     <svg
-                       class="user-icon"
-                       xmlns="http://www.w3.org/2000/svg"
-                       width="25"
-                       height="24"
-                       viewBox="0 0 25 24"
-                       fill="none"
-                     >
-                       <path
-                         d="M12.5 2C6.986 2 2.5 6.486 2.5 12C2.5 17.514 6.986 22 12.5 22C18.014 22 22.5 17.514 22.5 12C22.5 6.486 18.014 2 12.5 2ZM12.5 6.5C13.8805 6.5 15 7.6195 15 9C15 10.3805 13.8805 11.5 12.5 11.5C11.1195 11.5 10 10.3805 10 9C10 7.6195 11.1195 6.5 12.5 6.5ZM17 14.769C17 16.1985 15.1765 17.5 12.5 17.5C9.8235 17.5 8 16.1985 8 14.769V14.431C8 13.917 8.417 13.5 8.931 13.5H16.069C16.583 13.5 17 13.917 17 14.431V14.769Z"
-                         fill="#BABABA"
-                       />
-                     </svg>
-                     <ul class="user-ul">
-                       <li><a href="<?= $baseUrl ?>/user" class="nav-link"> User </a></li>
-                     </ul>
-                   </div>
+  <div class="user-div">
+    <div class="user-icon-border">
+  <div class="user-avatar-wrapper user-trigger">
+    <img id="user-avatar" src="" alt="Avatar" style="display: none;" />
+    <div id="user-initial" class="user-initial-circle" style="display: none;"></div>
+    <img src="assets/icons8_male_user 2.svg" alt="Avatar" id="user-default-icon" class="user-default-icon" style="display: block;" />
+  </div>
+  <div class="user-dropdown-icon"><img src="assets/dropdown-svgrepo-com.svg" alt="" width="23" height="23"></div>
+   </div>
+  <a href="<?= $baseUrl ?>/user" id="userLink" style="font-size: 1.3rem; background: white; display:flex" class="nav-link user-trigger"></a>
+
+  <ul class="user-ul">
+    <li><div class="uListmenu"><img src="assets/account_circle_25dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="."><button onclick="window.location.href='<?= $baseUrl ?>/user'" id="user-profile" class="user-email" style="font-weight: 500;"></button></div></li>
+    <li class="user-li">
+      <div class="uListmenu"><img src="assets/user_attributes_25dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt=".">
+      <button onclick="window.location.href='<?= $baseUrl ?>/user'" class="user-email">Profile</button></div>
+    </li>
+    <li><div class= 'uListmenu'><img src="assets/login_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="."><button id="auth-action" class="user-email">Log In</button></div></li>
+  </ul>
+</div>
             </div>
         </nav>
     </div>
-</body>
+<script type="module">
+ import {
+  auth,
+  provider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from './assets/js/firebase.js';
+
+window.addEventListener("DOMContentLoaded", () => {
+  const avatar = document.getElementById("user-avatar");
+  const initial = document.getElementById("user-initial");
+  const defaultIcon = document.getElementById("user-default-icon");
+  const profileBtn = document.getElementById("user-profile");
+  const authBtn = document.getElementById("auth-action");
+
+  function getUserInitials(displayName, email) {
+    if (displayName && displayName.trim()) {
+      const names = displayName.trim().split(" ");
+      return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+    } else if (email) {
+      return email[0].toUpperCase();
+    }
+    return "U";
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // ✅ Show avatar or initials
+      if (user.photoURL && avatar) {
+        avatar.src = user.photoURL;
+        avatar.style.display = "block";
+        if (initial) initial.style.display = "none";
+        if (defaultIcon) defaultIcon.style.display = "none";
+      } else {
+        if (initial) {
+          initial.textContent = getUserInitials(user.displayName, user.email);
+          initial.style.display = "flex";
+        }
+        if (avatar) avatar.style.display = "none";
+        if (defaultIcon) defaultIcon.style.display = "none";
+      }
+
+      // ✅ Update profile and auth buttons
+      if (profileBtn) {
+        profileBtn.textContent = user.email || "Profile";
+        profileBtn.onclick = () => window.location.href = '<?= $baseUrl ?>/user';
+      }
+
+      if (authBtn) {
+        authBtn.textContent = "Logout";
+        authBtn.onclick = async () => {
+          try {
+            await signOut(auth);
+          } catch (e) {
+            console.error("Logout error", e);
+          }
+        };
+      }
+
+    } else {
+      // ❌ User is NOT signed in
+      if (avatar) avatar.style.display = "none";
+      if (initial) initial.style.display = "none";
+      if (defaultIcon) defaultIcon.style.display = "block";
+
+      if (profileBtn) {
+        profileBtn.textContent = "User";
+        profileBtn.onclick = () => window.location.href = '<?= $baseUrl ?>/user';
+      }
+
+      if (authBtn) {
+        authBtn.textContent = "Login";
+        authBtn.onclick = async () => {
+          try {
+            await signInWithPopup(auth, provider);
+          } catch (e) {
+            console.error("Login error", e);
+          }
+        };
+      }
+    }
+  });
+});
+
+</script>
+
 <script>
       // wait until the DOM is fully parsed
       window.addEventListener("DOMContentLoaded", () => {
@@ -219,4 +307,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
       
     </script>
+</body>
 </html>
