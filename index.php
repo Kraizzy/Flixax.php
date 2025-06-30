@@ -22,4 +22,3 @@ if (file_exists($pageFile)) {
 if ($page === 'home') {
     include __DIR__ . '/includes/footer.php';
 }
-?>

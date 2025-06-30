@@ -1,6 +1,7 @@
 <?php
 // Session management functions
-function addToCollection($movie) {
+function addToCollection($movie)
+{
     $collection = $_SESSION['collection'] ?? [];
     if (!isset($collection[$movie['movieId']])) {
         $collection[$movie['movieId']] = $movie;
@@ -8,7 +9,8 @@ function addToCollection($movie) {
     }
 }
 
-function addToRecentlyWatched($movie) {
+function addToRecentlyWatched($movie)
+{
     $recentlyWatched = $_SESSION['recently_watched'] ?? [];
     $recentlyWatched[$movie['movieId']] = $movie;
     if (count($recentlyWatched) > 10) {
@@ -17,7 +19,8 @@ function addToRecentlyWatched($movie) {
     $_SESSION['recently_watched'] = $recentlyWatched;
 }
 
-function removeFromList($movieId, $listType) {
+function removeFromList($movieId, $listType)
+{
     if ($listType === 'collection' && isset($_SESSION['collection'][$movieId])) {
         unset($_SESSION['collection'][$movieId]);
     } elseif ($listType === 'recently_watched' && isset($_SESSION['recently_watched'][$movieId])) {
@@ -26,7 +29,8 @@ function removeFromList($movieId, $listType) {
 }
 
 // API functions
-function fetchMoviesByGenre($genreId) {
+function fetchMoviesByGenre($genreId)
+{
     $url = "http://linkskool.net/api/v3/public/movies/genre/" . urlencode($genreId);
     $response = @file_get_contents($url);
     if ($response === false) {
@@ -36,7 +40,8 @@ function fetchMoviesByGenre($genreId) {
     return isset($data['data']) && is_array($data['data']) ? $data['data'] : [];
 }
 
-function fetchGenres() {
+function fetchGenres()
+{
     $genreApiUrl = "http://linkskool.net/api/v3/public/movies/genres";
     $response = @file_get_contents($genreApiUrl);
     if ($response === false) {
@@ -46,7 +51,8 @@ function fetchGenres() {
     return isset($data['data']) && is_array($data['data']) ? $data['data'] : [];
 }
 
-function getGenreNameById($genreId, $genres) {
+function getGenreNameById($genreId, $genres)
+{
     foreach ($genres as $genre) {
         if ($genre['id'] == $genreId) {
             return $genre['name'];
@@ -54,4 +60,3 @@ function getGenreNameById($genreId, $genres) {
     }
     return "Unknown Genre";
 }
-?>

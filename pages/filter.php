@@ -14,7 +14,8 @@ function fetchMoviesByGenre($genreId)
     // Adjust based on actual API response structure
     return isset($data['data']) && is_array($data['data']) ? $data['data'] : [];
 }
-function getGenreNameById($genreId) {
+function getGenreNameById($genreId)
+{
     // Replace this with your actual genre list API endpoint
     $genreApiUrl = "http://linkskool.net/api/v3/public/movies/genres";
 
@@ -53,7 +54,7 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies by Genre</title>
     <style>
-         /* SKELETON LOADER */
+        /* SKELETON LOADER */
         .skeleton {
             animation: pulse 1.5s infinite ease-in-out;
             background: linear-gradient(-90deg, #1f1f1f 0%, #2c2c2c 50%, #1f1f1f 100%);
@@ -113,6 +114,7 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
         .skeleton-line.long {
             width: 90%;
         }
+
         /* Basic styling for demonstration */
         .movie-list {
             width: 95%;
@@ -292,11 +294,12 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
             line-height: normal;
         }
 
-        .filter-buttons:hover{
+        .filter-buttons:hover {
             background: rgba(252, 125, 135, 0.20);
             color: #FA528C;
             cursor: pointer;
         }
+
         .filter-buttons.active {
             background: rgba(252, 125, 135, 0.20);
             color: #FA528C;
@@ -340,8 +343,8 @@ $CurrentGenreName = $genreId ? getGenreNameById($genreId) : 'All';
 
 <body>
     <?php
-$activeGenre = $_GET['genre_id'] ?? null; // ✅ Define it before usage
-?>
+    $activeGenre = $_GET['genre_id'] ?? null; // ✅ Define it before usage
+    ?>
     <div class="filter">
         <div class="div-container">
             <div class="filter-list">
@@ -367,7 +370,7 @@ $activeGenre = $_GET['genre_id'] ?? null; // ✅ Define it before usage
             <?php if ($genreId === null || $genreId === false): ?>
                 <p class="error">Invalid or missing genre ID.</p>
             <?php elseif (empty($movies)): ?>
-                 <!-- Skeleton Loader Fallback -->
+                <!-- Skeleton Loader Fallback -->
                 <?php for ($i = 0; $i < 8; $i++): ?>
                     <div class="skeleton-card skeleton">
                         <div class="skeleton-poster skeleton"></div>

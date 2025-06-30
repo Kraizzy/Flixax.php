@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($id && $title && $thumbnail) {
         $collection = $_SESSION['collection'] ?? [];
         $recentlyWatched = $_SESSION['recently_watched'] ?? [];
-        
+
         // Check for duplicates
         $exists = false;
         foreach ($collection as $movie) {
